@@ -1,0 +1,137 @@
+{
+  "config": {
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 1,
+    "metadata": {},
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/lakshmi.killamsetty/Desktop/OrangeHrm/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "name": "Chromium",
+        "testDir": "C:/Users/lakshmi.killamsetty/Desktop/OrangeHrm/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/?(*.)@(spec|test).*"
+        ],
+        "timeout": 0
+      }
+    ],
+    "reporter": [
+      [
+        "dot",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "jsonReports/jsonReport.json"
+        }
+      ],
+      [
+        "html",
+        {
+          "open": "always"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 15000
+    },
+    "configFile": "C:\\Users\\lakshmi.killamsetty\\Desktop\\OrangeHrm\\playwright.config.ts",
+    "rootDir": "C:/Users/lakshmi.killamsetty/Desktop/OrangeHrm/tests",
+    "quiet": false,
+    "shard": null,
+    "updateSnapshots": "missing",
+    "version": "1.31.2",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "organization.test.ts",
+      "file": "organization.test.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "System should not allow user to Add Record with existing Location Name",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 0,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectName": "Chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "failed",
+                  "duration": 281093,
+                  "error": {
+                    "message": "locator.textContent: Target closed\n=========================== logs ===========================\nwaiting for locator('Already exists')\n============================================================",
+                    "stack": "locator.textContent: Target closed\n=========================== logs ===========================\nwaiting for locator('Already exists')\n============================================================\n    at organizationPage.verifyErrorMessage (C:\\Users\\lakshmi.killamsetty\\Desktop\\OrangeHrm\\pages\\organizationPage.ts:123:80)\n    at C:\\Users\\lakshmi.killamsetty\\Desktop\\OrangeHrm\\tests\\organization.test.ts:155:28"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\lakshmi.killamsetty\\Desktop\\OrangeHrm\\pages\\organizationPage.ts",
+                        "column": 80,
+                        "line": 123
+                      },
+                      "message": "locator.textContent: Target closed\n=========================== logs ===========================\nwaiting for locator('Already exists')\n============================================================\n\n\u001b[90m   at \u001b[39m..\\pages\\organizationPage.ts:123\n\n\u001b[0m \u001b[90m 121 |\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 122 |\u001b[39m       \u001b[36masync\u001b[39m verifyErrorMessage(){\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 123 |\u001b[39m         \u001b[36mconst\u001b[39m mesg \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mlocator(\u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mlocationsLocators\u001b[33m.\u001b[39merrorMesg)\u001b[33m.\u001b[39mtextContent()\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m     |\u001b[39m                                                                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 124 |\u001b[39m         expect (mesg)\u001b[33m.\u001b[39mtoBe(\u001b[32m'Already exists'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 125 |\u001b[39m       }\u001b[0m\n\u001b[0m \u001b[90m 126 |\u001b[39m\u001b[0m\n\n\u001b[2m    at organizationPage.verifyErrorMessage (C:\\Users\\lakshmi.killamsetty\\Desktop\\OrangeHrm\\pages\\organizationPage.ts:123:80)\u001b[22m\n\u001b[2m    at C:\\Users\\lakshmi.killamsetty\\Desktop\\OrangeHrm\\tests\\organization.test.ts:155:28\u001b[22m"
+                    }
+                  ],
+                  "stdout": [
+                    {
+                      "text": "AdminUser Management\n"
+                    },
+                    {
+                      "text": "\u001b[90mundefined\u001b[39m\n"
+                    },
+                    {
+                      "text": "13\n"
+                    },
+                    {
+                      "text": "Sweden_13\n"
+                    },
+                    {
+                      "text": "[\n  \u001b[32m'Canadian Regional HQ'\u001b[39m,\n  \u001b[32m'HQ - CA, USA'\u001b[39m,\n  \u001b[32m'New York Sales Office'\u001b[39m,\n  \u001b[32m'Sweden_13'\u001b[39m,\n  \u001b[32m'Sweden_23'\u001b[39m,\n  \u001b[32m'Sweden_30'\u001b[39m,\n  \u001b[32m'Sweden_341'\u001b[39m,\n  \u001b[32m'Sweden_738'\u001b[39m,\n  \u001b[32m'Texas R&D'\u001b[39m\n] \u001b[33m9\u001b[39m\n"
+                    },
+                    {
+                      "text": "\u001b[33m9\u001b[39m\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2023-03-27T20:15:11.015Z",
+                  "attachments": [],
+                  "errorLocation": {
+                    "file": "C:\\Users\\lakshmi.killamsetty\\Desktop\\OrangeHrm\\pages\\organizationPage.ts",
+                    "column": 80,
+                    "line": 123
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8cd5f6de25f7227090ca-3255c3779102d37691dd",
+          "file": "organization.test.ts",
+          "line": 119,
+          "column": 6
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

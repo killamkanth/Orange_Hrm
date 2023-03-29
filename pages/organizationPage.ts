@@ -7,23 +7,29 @@ export class organizationPage{
     readonly homepage: homePage;
     readonly generalInformationLocators: any;
     readonly locationsLocators:any;
+    readonly editToggleIcon: any;
+    readonly organizationStructureLocators: any;
 
 
 
     constructor(page :Page){
         this.page = page
         this.homepage = new homePage(page);
-        this.generalInformationLocators={
-            editToggleIcon :"//label[normalize-space()='Edit']/child::span",
+        // this.generalInformationLocators={
+        //     editToggleIcon :"//label[normalize-space()='Edit']/child::span",
             
-        }
+        // }
 
         this.locationsLocators = {
             locationsTitle : "//h5[normalize-space()='Locations']",
             tablelocator : ".orangehrm-container",
             locationName : "//div[@class='oxd-table-card']//div[2]",
-            errorMesg : "Already exists",
+            errorMesg : "//span[text()='Already exists']",
         }
+        this.organizationStructureLocators={
+            addOrganizationUnitTitle : "//*[normalize-space()='Add Organization Unit']/p"
+        }
+        this.editToggleIcon ="//label[normalize-space()='Edit']/child::span";
 
         
 
@@ -32,7 +38,7 @@ export class organizationPage{
     }
 
     async clickAndVerifyToggleIcon(){
-        const toggleButton = await this.page.locator(this.generalInformationLocators.editToggleIcon);
+        const toggleButton = await this.page.locator(this.editToggleIcon);
         //if((toggleButton).check)
       // let boo= await expect (toggleButton).;
       toggleButton.click();
@@ -108,7 +114,7 @@ export class organizationPage{
     async verifyRecordTable(locationName:string){
 
         await (await this.page.waitForSelector(this.locationsLocators.tablelocator)).waitForElementState('stable');
-  
+        await this.homepage.waitForTimeout(3000);
           const locationArray = await this.page.locator(this.locationsLocators.locationName).allTextContents();
           console.log(locationArray , locationArray.length);
   
@@ -121,7 +127,12 @@ export class organizationPage{
 
       async verifyErrorMessage(){
         const mesg = await this.page.locator(this.locationsLocators.errorMesg).textContent();
+        console.log('mesg is ' , mesg);
         expect (mesg).toBe('Already exists');
+      }
+
+      async clickOnEditToggleIcon(){
+        await this.page.locator(this.editToggleIcon).click();
       }
 
       

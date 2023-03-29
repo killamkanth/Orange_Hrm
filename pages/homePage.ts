@@ -417,7 +417,23 @@ export class homePage{
   }
 
   async verifyPageTitle(titleValue:string){
-    let boo = await expect (await this.page.locator(`//*[normalize-space()='${titleValue}']`).textContent()).toBe(titleValue);
+    await this.waitForTimeout(2000);
+    const title =  await this.page.locator(`//*[normalize-space()='${titleValue}']`).textContent();
+    console.log('title is ' , title);
+    await this.waitForTimeout(1500);
+    let boo = expect (title).toEqual(titleValue);
+    
+    return boo;
+  }
+
+  async verifyPageTitleByPassingLocator(titleValue:string,locator :Locator){
+    await this.waitForTimeout(2000);
+    const title =  await locator.textContent();//(`//*[normalize-space()='${titleValue}']/p`).textContent();
+
+    console.log('title is ' , title);
+    await this.waitForTimeout(1500);
+    let boo = expect (title).toEqual(titleValue);
+    
     return boo;
   }
 

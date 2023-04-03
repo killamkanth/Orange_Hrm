@@ -27,7 +27,12 @@ export class organizationPage{
             errorMesg : "//span[text()='Already exists']",
         }
         this.organizationStructureLocators={
-            addOrganizationUnitTitle : "//*[normalize-space()='Add Organization Unit']/p"
+            addOrganizationUnitTitle : "//div[normalize-space()='Add Organization Unit']/p",
+            editOrganizationUnitTitle :"//div[normalize-space()='Edit Organization Unit']/p",
+            deleteOrganisationUnitIcon:"//li[@class='oxd-tree-node --last']//button[i[@class='oxd-icon bi-trash-fill']]",
+            editOrganisationUnitIcon:"//li[@class='oxd-tree-node --last']//button[i[@class='oxd-icon bi-pencil-fill']]",
+            errorMesg : "//span[text()='Organization unit name should be unique']",
+            container : ".org-name"
         }
         this.editToggleIcon ="//label[normalize-space()='Edit']/child::span";
 
@@ -115,13 +120,13 @@ export class organizationPage{
 
         await (await this.page.waitForSelector(this.locationsLocators.tablelocator)).waitForElementState('stable');
         await this.homepage.waitForTimeout(3000);
-          const locationArray = await this.page.locator(this.locationsLocators.locationName).allTextContents();
-          console.log(locationArray , locationArray.length);
+        const locationArray = await this.page.locator(this.locationsLocators.locationName).allTextContents();
+        console.log(locationArray , locationArray.length);
   
-          console.log(locationArray.length);
+        console.log(locationArray.length);
   
-          let boo = await locationArray.includes(locationName);
-          return boo;
+        let boo = await locationArray.includes(locationName);
+        return boo;
          
       }
 
@@ -131,10 +136,47 @@ export class organizationPage{
         expect (mesg).toBe('Already exists');
       }
 
+        async verifyErrorMessage1(locator:string){
+        const mesg = await this.page.locator(locator).textContent();
+        console.log('mesg is ' , mesg);
+        expect (mesg).toEqual("Organization unit name should be unique");
+      }
+
       async clickOnEditToggleIcon(){
         await this.page.locator(this.editToggleIcon).click();
       }
 
+      async fillDetails(){
+
+      }
+
+    async verifyOrganizationStructureTable(val :string){
+        
+        
+        const arrayList =  await this.page.locator(".org-name").allTextContents();
+        console.log(arrayList , arrayList.length);
+       // let boo =  arrayList.includes(val);
+        let boo;
+        for(const name of arrayList){
+           const actVal= name.trim();
+           if(val == actVal){
+            console.log('Act Value is' , actVal , 'Exp Value is ' , val );
+            boo = true;
+            break;
+           }
+           boo=false;
+        }       
+        return boo;
+    }
+
+    async getOrganizationStructureListCount(){
+    //await this.homepage.waitForSpinnerToDisappear();
+    const arrayList1 =  await this.page.locator(this.organizationStructureLocators.container).allTextContents();
+    console.log(arrayList1 , arrayList1.length);
+    let size = arrayList1.length;
+    
+    return size;
+    }
       
 
 

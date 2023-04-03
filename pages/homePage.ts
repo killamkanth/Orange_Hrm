@@ -10,6 +10,9 @@ export class homePage{
     readonly saveBtn: string;
     readonly cancelBtn: string;
     readonly jobTitlePageLocators:any ;
+    readonly buttonEle: (locator: any) => string;
+    readonly textEle: (textElementName: any) => string;
+    readonly spinner: string;
     
 
     //const randomText;
@@ -73,8 +76,15 @@ export class homePage{
           }
         this.saveBtn = "//button[@type='submit' and text()=' Save ']",
         this.cancelBtn = "button.oxd-button--ghost",
-        this.toastMessage = 'p.oxd-text--toast-message';
-        this.closeIcon = '.oxd-toast-close-container';
+        this.toastMessage = 'p.oxd-text--toast-message',
+        this.closeIcon = '.oxd-toast-close-container',
+        this.spinner = '.oxd-loading-spinner-container',
+        this.buttonEle = (buttonName) => {
+          return `//button[normalize-space()='${buttonName}']`;
+      }
+      this.textEle = (textElementName) => {
+        return `//div[label[normalize-space()='${textElementName}']]//following-sibling::div/*`;
+    }
     }
 
     async verifyLogin(){
@@ -164,26 +174,26 @@ export class homePage{
         return result;
       }
 
-      // async generateRandomNumber(length: number) {
-      //   const characters = '1234567890';
-      //   let result = '';
+      async getRanNum(length: number) {
+        const characters = '1234567890';
+        let result = '';
       
-      //   for (let i = 0; i < length; i++) {
-      //     const randomIndex = Math.floor(Math.random() * characters.length);
-      //     result += characters[randomIndex];
-      //   }
+        for (let i = 0; i < length; i++) {
+          const randomIndex = Math.floor(Math.random() * characters.length);
+          result += characters[randomIndex];
+        }
       
-      //   return result;
-      // }
+        return result;
+      }
 
-      async  getRanNum(length: number) {
-        const randomNumber = Math.floor(Math.random() * 1000); // generates a random number between 0 and 99
-        //const myString = "Random Number:";
-        const concatenatedString =  randomNumber.toString();
-        console.log(concatenatedString); // "Random Number: 42" (or any other random number between 0 and 99)
+    //   async  getRanNum(length: number) {
+    //     const randomNumber = Math.floor(Math.random() * 1000); // generates a random number between 0 and 99
+    //     //const myString = "Random Number:";
+    //     const concatenatedString =  randomNumber.toString();
+    //     console.log(concatenatedString); // "Random Number: 42" (or any other random number between 0 and 99)
         
-        return concatenatedString;
-     }
+    //     return concatenatedString;
+    //  }
       async generatePathForTableElement(text :string){
         //await this.page.locator('//div[div[text()="${text}"]]');
         await this.page.locator(`//div[div[text()="${text}"]]`)
@@ -426,13 +436,14 @@ export class homePage{
     return boo;
   }
 
-  async verifyPageTitleByPassingLocator(titleValue:string,locator :Locator){
+  async verifyPageTitleByPassingLocator(titleValue:string,locator :string){
     await this.waitForTimeout(2000);
-    const title =  await locator.textContent();//(`//*[normalize-space()='${titleValue}']/p`).textContent();
+    await this.waitForSelector(locator);
+    const title =  await this.page.locator(locator).textContent();//(`//*[normalize-space()='${titleValue}']/p`).textContent();
 
     console.log('title is ' , title);
     await this.waitForTimeout(1500);
-    let boo = expect (title).toEqual(titleValue);
+    let boo = expect(title).toEqual(titleValue);
     
     return boo;
   }
@@ -443,13 +454,28 @@ export class homePage{
   }
 
   async getButtonElement(buttonName : string){
-    const btn = await this.page.locator(`//button[normalize-space()='${buttonName}']`);
+    await (await this.page.waitForSelector(this.buttonEle(buttonName))).waitForElementState('stable');
+    const btn = this.page.locator(this.buttonEle(buttonName));
+    console.log(buttonName);
     return btn;
   }
 
+  
+
   async getTextElement(textElementName : string){
-    const textElement = await this.page.locator(`//div[label[normalize-space()='${textElementName}']]//following-sibling::div/*`);
+    await this.waitForSelector(this.textEle(textElementName));
+    const textElement = this.page.locator(this.textEle(textElementName));
     return textElement;
+  }
+
+  async waitForSelector(locator:string){
+    await (await this.page.waitForSelector(locator)).waitForElementState('stable');
+    
+  }
+
+  async waitForSpinnerToDisappear() {
+    const spinner = await this.page.waitForSelector(this.spinner);
+    await spinner.waitForElementState("hidden");
   }
 
 

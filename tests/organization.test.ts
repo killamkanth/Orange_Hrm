@@ -5,7 +5,6 @@ import { organizationPage } from "../pages/organizationPage"
 
 
 let page : Page
-let browser,context : any
 let loginpage : loginPage
 let homepage : homePage
 let organizationpage: organizationPage
@@ -15,18 +14,21 @@ test.beforeAll(async({ browser})=>{
     // browser = await chromium.launch();
     // context = await browser.newContext();
      page = await browser.newPage();
+     loginpage = new loginPage(page);
+     homepage = new homePage(page);
+     organizationpage = new organizationPage(page);
      
 })
 
 test('Edit General Information', async()=>{
 
 
-    loginpage = new loginPage(page);
+    //loginpage = new loginPage(page);
     await loginpage.baseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
 
-    homepage = new homePage(page);
+    //homepage = new homePage(page);
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
 
@@ -46,16 +48,16 @@ test('Edit General Information', async()=>{
 
 test('Add Location Record',async()=>{
 
-    loginpage = new loginPage(page);
+    //loginpage = new loginPage(page);
     await loginpage.baseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
 
-    homepage = new homePage(page);
+    //homepage = new homePage(page);
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
 
-    organizationpage = new organizationPage(page);
+    //organizationpage = new organizationPage(page);
     await homepage.navigateToMenuSubMenu('Organization','Locations');
     await homepage.waitForTimeout(2000);
     await organizationpage.verifyLocationPageTitle();
@@ -77,16 +79,16 @@ test('Add Location Record',async()=>{
 test('Delete Location Record', async()=>{
 
 
-    loginpage = new loginPage(page);
+    //loginpage = new loginPage(page);
     await loginpage.baseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
 
-    homepage = new homePage(page);
+    //homepage = new homePage(page);
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
 
-    organizationpage = new organizationPage(page);
+    //organizationpage = new organizationPage(page);
     await homepage.navigateToMenuSubMenu('Organization','Locations');
     await homepage.waitForTimeout(2000);
     await organizationpage.verifyLocationPageTitle();
@@ -113,16 +115,16 @@ test('Delete Location Record', async()=>{
 })
 
 test('System should not allow user to Add Record with existing Location Name',async()=>{
-    loginpage = new loginPage(page);
+    //loginpage = new loginPage(page);
     await loginpage.baseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
 
-    homepage = new homePage(page);
+    //homepage = new homePage(page);
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
 
-    organizationpage = new organizationPage(page);
+    //organizationpage = new organizationPage(page);
     await homepage.navigateToMenuSubMenu('Organization','Locations');
     await homepage.waitForTimeout(2000);
     await organizationpage.verifyLocationPageTitle();
@@ -154,16 +156,16 @@ test('System should not allow user to Add Record with existing Location Name',as
 //Done
 test('Edit Location Record', async()=>{
 
-    loginpage = new loginPage(page);
+    //loginpage = new loginPage(page);
     await loginpage.baseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
 
-    homepage = new homePage(page);
+   // homepage = new homePage(page);
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
 
-    organizationpage = new organizationPage(page);
+    //organizationpage = new organizationPage(page);
     await homepage.navigateToMenuSubMenu('Organization','Locations');
     await homepage.waitForTimeout(2000);
     await organizationpage.verifyLocationPageTitle();
@@ -200,12 +202,12 @@ test('Edit Location Record', async()=>{
 
 test('Delete Multiple Location Records' , async()=>{
 
-    loginpage = new loginPage(page);
+    //loginpage = new loginPage(page);
     await loginpage.baseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
 
-    homepage = new homePage(page);
+    //homepage = new homePage(page);
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
 
@@ -247,39 +249,211 @@ test('Delete Multiple Location Records' , async()=>{
 
 })
 
-test.only('qwe',async()=>{
-    loginpage = new loginPage(page);
+///Admin->Organisation->Structure
+test('Add an Organisation Unit',async()=>{
+    //loginpage = new loginPage(page);
     await loginpage.baseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
 
-    homepage = new homePage(page);
+   // homepage = new homePage(page);
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
 
-    organizationpage = new organizationPage(page);
+    //organizationpage = new organizationPage(page);
     await homepage.navigateToMenuSubMenu('Organization','Structure');
     await homepage.waitForTimeout(2000);
 
-    await homepage.waitForTimeout(2000);
     let boo = await homepage.verifyPageTitle('Organization Structure');
     console.log(boo);
 
-   // await organizationpage.editToggleIcon.click();
     await organizationpage.clickOnEditToggleIcon();
-    //check this line
-    //await (await page.waitForSelector(homepage.getButtonElement("Add"))).waitForElementState('stable');
-    await homepage.waitForTimeout(2000);
+    await (await page.waitForSelector(homepage.buttonEle('Add'))).waitForElementState('stable');
+
     await (await homepage.getButtonElement('Add')).click();
-    await homepage.waitForTimeout(4000);
+  
     await homepage.verifyPageTitleByPassingLocator('Add Organization Unit', 
             organizationpage.organizationStructureLocators.addOrganizationUnitTitle);
+    console.log("executed");
+
+    await (await homepage.getTextElement('Unit Id')).type(await homepage.getRanNum(5));
+    let value = 'Security'+await homepage.getRanNum(2);
+    await (await homepage.getTextElement('Name')).type(value);
+    await homepage.waitForTimeout(1000);
+    await (await homepage.getButtonElement('Save')).click();
+    await homepage.waitForTimeout(1000);
+    await homepage.waitForSelector(".org-container");
+    await homepage.waitForTimeout(3000);
+
+    let status = organizationpage.verifyOrganizationStructureTable(value);
+    expect (status).toBeTruthy();
 
 
+})
+
+test('Should throw an error message while Addiing an Organisation Unit with existing name',async()=>{
+    //loginpage = new loginPage(page);
+    await loginpage.baseURL();
+    await loginpage.fillLoginDetails();
+    await loginpage.clickOnLogin();
+
+   // homepage = new homePage(page);
+    await homepage.verifyLogin();
+    await homepage.verifyAdmin();
+
+    //organizationpage = new organizationPage(page);
+    await homepage.navigateToMenuSubMenu('Organization','Structure');
+    await homepage.waitForTimeout(2000);
+
+    let boo = await homepage.verifyPageTitle('Organization Structure');
+    console.log(boo);
+
+    await organizationpage.clickOnEditToggleIcon();
+    await (await page.waitForSelector(homepage.buttonEle('Add'))).waitForElementState('stable');
+
+    await (await homepage.getButtonElement('Add')).click();
+  
+    await homepage.verifyPageTitleByPassingLocator('Add Organization Unit', 
+            organizationpage.organizationStructureLocators.addOrganizationUnitTitle);
+    console.log("executed");
+
+    await (await homepage.getTextElement('Unit Id')).type(await homepage.getRanNum(5));
+    let value = 'Security'+await homepage.getRanNum(2);
+    await (await homepage.getTextElement('Name')).type(value);
+    await homepage.waitForTimeout(1000);
+    await (await homepage.getButtonElement('Save')).click();
+    await homepage.waitForTimeout(1000);
+    await homepage.waitForSelector(".org-container");
+    await homepage.waitForTimeout(3000);
+
+    let status = organizationpage.verifyOrganizationStructureTable(value);
+    expect (status).toBeTruthy();
+
+    //Adding the same name unit
+
+    await (await homepage.getButtonElement('Add')).click();
+  
+    await homepage.verifyPageTitleByPassingLocator('Add Organization Unit', 
+            organizationpage.organizationStructureLocators.addOrganizationUnitTitle);
+    console.log("executed");
+
+    //await (await homepage.getTextElement('Unit Id')).type(await homepage.getRanNum(5));
+   // value = 'Security'+await homepage.getRanNum(2);
+    await (await homepage.getTextElement('Name')).type(value);
+    await homepage.waitForTimeout(1000);
+
+   // await organizationpage.verifyErrorMessage1(organizationpage.organizationStructureLocators.errorMesg,page.locator(organizationpage.organizationStructureLocators.errorMesg).textContent());
+
+    await organizationpage.verifyErrorMessage1(organizationpage.organizationStructureLocators.errorMesg);
 
 
+})
+test.only('Delete an Organisation Unit',async()=>{
+
+    //loginpage = new loginPage(page);
+    await loginpage.baseURL();
+    await loginpage.fillLoginDetails();
+    await loginpage.clickOnLogin();
+
+   // homepage = new homePage(page);
+    await homepage.verifyLogin();
+    await homepage.verifyAdmin();
+
+    //organizationpage = new organizationPage(page);
+    await homepage.navigateToMenuSubMenu('Organization','Structure');
+    await homepage.waitForTimeout(2000);
+
+    let boo = await homepage.verifyPageTitle('Organization Structure');
+    console.log(boo);
+
+    await organizationpage.clickOnEditToggleIcon();
+    await (await page.waitForSelector(homepage.buttonEle('Add'))).waitForElementState('stable');
+
+    await (await homepage.getButtonElement('Add')).click();
+  
+    await homepage.verifyPageTitleByPassingLocator('Add Organization Unit', 
+            organizationpage.organizationStructureLocators.addOrganizationUnitTitle);
+    console.log("executed");
+
+    await (await homepage.getTextElement('Unit Id')).type(await homepage.getRanNum(5));
+    let value = 'Security'+await homepage.getRanNum(2);
+    await (await homepage.getTextElement('Name')).type(value);
+    await homepage.waitForTimeout(1000);
+    await (await homepage.getButtonElement('Save')).click();
+    await homepage.waitForTimeout(1000);
+    await homepage.waitForSelector(".org-container");
+    await homepage.waitForTimeout(3000);
+
+    let status = organizationpage.verifyOrganizationStructureTable(value);
+    expect (status).toBeTruthy();
+
+    // const arrayList1 =  await page.locator(".org-name").allTextContents();
+    // console.log(arrayList1 , arrayList1.length);
+    // let size = arrayList1.length;
+    // console.log("Size before deleting :: ", size);
+    const countBefDeleting  =organizationpage.getOrganizationStructureListCount();
+
+    await page.locator(organizationpage.organizationStructureLocators.deleteOrganisationUnitIcon).click();
+    
+    await (await homepage.getButtonElement("Yes, Delete")).click({force:true,delay:2000});
+    await homepage.waitForTimeout(4000);
+    await homepage.waitForSelector(".org-container");
 
 
+    const countAfterDeleting  =organizationpage.getOrganizationStructureListCount();
+
+    // const arrayList2 =  await page.locator(".org-name").allTextContents();
+    // console.log(arrayList2 , arrayList2.length);
+    // console.log("Size after deleting :: ", arrayList2.length);
+    // let listsize = arrayList2.length;
+    if(countAfterDeleting < countBefDeleting){
+        console.log("Record deleted successfully");
+    }
+        
+
+})
+
+test('Edit Organisation Unit',async()=>{
+
+     //loginpage = new loginPage(page);
+     await loginpage.baseURL();
+     await loginpage.fillLoginDetails();
+     await loginpage.clickOnLogin();
+ 
+    // homepage = new homePage(page);
+     await homepage.verifyLogin();
+     await homepage.verifyAdmin();
+ 
+     //organizationpage = new organizationPage(page);
+     await homepage.navigateToMenuSubMenu('Organization','Structure');
+     await homepage.waitForTimeout(2000);
+ 
+     let boo = await homepage.verifyPageTitle('Organization Structure');
+     console.log(boo);
+ 
+     await organizationpage.clickOnEditToggleIcon();
+     await homepage.waitForSelector(organizationpage.organizationStructureLocators.editOrganisationUnitIcon);
+    // await (await page.waitForSelector(homepage.buttonEle('Add'))).waitForElementState('stable');
+ 
+     await page.locator(organizationpage.organizationStructureLocators.editOrganisationUnitIcon).click();
+   
+     await homepage.verifyPageTitleByPassingLocator('Edit Organization Unit', 
+             organizationpage.organizationStructureLocators.editOrganizationUnitTitle);
+     console.log("executed");
+
+     //edit details
+    let value = 'Security'+await homepage.getRanNum(2);
+    await (await homepage.getTextElement('Name')).clear();
+    await (await homepage.getTextElement('Name')).type(value);
+    await homepage.waitForTimeout(1000);
+    await (await homepage.getButtonElement('Save')).click();
+    //await homepage.waitForTimeout(1000);
+    await page.waitForLoadState("load");
+    //await homepage.waitForSelector(".org-container");
+   // await homepage.waitForTimeout(3000);
+   // await page.waitForEvent("close");
+    let status = organizationpage.verifyOrganizationStructureTable(value);
+    expect (status).toBeTruthy();
 
 })
 

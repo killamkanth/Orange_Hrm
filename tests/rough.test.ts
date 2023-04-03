@@ -25,14 +25,14 @@ test('',async({page})=>{
 
      }
 
-     async function multiselectcheckbox(){
-      const table = await page.locator('#myTable');
-      const rows = await table.$$('tbody tr');
-      for (const row of rows) {
-      const checkbox = await row.$('input[type="checkbox"]');
-      await checkbox.click();
-        }
-     }
+    //  async function multiselectcheckbox(){
+    //   const table = await page.locator('#myTable');
+    //   const rows = await table.$$('tbody tr');
+    //   for (const row of rows) {
+    //   const checkbox = await row.$('input[type="checkbox"]');
+    //   await checkbox.click();
+    //     }
+    //  }
      
     
     // generateRandomNumber1(length: number) {

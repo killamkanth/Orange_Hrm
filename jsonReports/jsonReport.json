@@ -7,7 +7,7 @@
     "globalTimeout": 0,
     "grep": {},
     "grepInvert": null,
-    "maxFailures": 1,
+    "maxFailures": 0,
     "metadata": {},
     "preserveOutput": "always",
     "projects": [
@@ -21,7 +21,7 @@
         "testMatch": [
           "**/?(*.)@(spec|test).*"
         ],
-        "timeout": 0
+        "timeout": 180000
       }
     ],
     "reporter": [
@@ -52,79 +52,85 @@
     "shard": null,
     "updateSnapshots": "missing",
     "version": "1.31.2",
-    "workers": 1,
+    "workers": 4,
     "webServer": null
   },
   "suites": [
     {
-      "title": "organization.test.ts",
-      "file": "organization.test.ts",
+      "title": "reports.test.ts",
+      "file": "reports.test.ts",
       "column": 0,
       "line": 0,
       "specs": [
         {
-          "title": "qwe",
-          "ok": false,
+          "title": "Delete a Report",
+          "ok": true,
           "tags": [],
           "tests": [
             {
-              "timeout": 0,
+              "timeout": 180000,
               "annotations": [],
               "expectedStatus": "passed",
               "projectName": "Chromium",
               "results": [
                 {
                   "workerIndex": 0,
-                  "status": "failed",
-                  "duration": 72462,
-                  "error": {
-                    "message": "locator.textContent is not a function",
-                    "stack": "TypeError: locator.textContent is not a function\n    at homePage.verifyPageTitleByPassingLocator (D:\\Orange_Hrm\\pages\\homePage.ts:431:34)\n    at D:\\Orange_Hrm\\tests\\organization.test.ts:275:5"
-                  },
-                  "errors": [
-                    {
-                      "location": {
-                        "file": "D:\\Orange_Hrm\\pages\\homePage.ts",
-                        "column": 34,
-                        "line": 431
-                      },
-                      "message": "TypeError: locator.textContent is not a function\n\n\u001b[90m   at \u001b[39m..\\pages\\homePage.ts:431\n\n\u001b[0m \u001b[90m 429 |\u001b[39m   \u001b[36masync\u001b[39m verifyPageTitleByPassingLocator(titleValue\u001b[33m:\u001b[39mstring\u001b[33m,\u001b[39mlocator \u001b[33m:\u001b[39m\u001b[33mLocator\u001b[39m){\u001b[0m\n\u001b[0m \u001b[90m 430 |\u001b[39m     \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m2000\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 431 |\u001b[39m     \u001b[36mconst\u001b[39m title \u001b[33m=\u001b[39m  \u001b[36mawait\u001b[39m locator\u001b[33m.\u001b[39mtextContent()\u001b[33m;\u001b[39m\u001b[90m//(`//*[normalize-space()='${titleValue}']/p`).textContent();\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m     |\u001b[39m                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 432 |\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 433 |\u001b[39m     console\u001b[33m.\u001b[39mlog(\u001b[32m'title is '\u001b[39m \u001b[33m,\u001b[39m title)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 434 |\u001b[39m     \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1500\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\n\u001b[2m    at homePage.verifyPageTitleByPassingLocator (D:\\Orange_Hrm\\pages\\homePage.ts:431:34)\u001b[22m\n\u001b[2m    at D:\\Orange_Hrm\\tests\\organization.test.ts:275:5\u001b[22m"
-                    }
-                  ],
+                  "status": "passed",
+                  "duration": 51425,
+                  "errors": [],
                   "stdout": [
                     {
-                      "text": "AdminUser Management\n"
+                      "text": "title is  Employee Reports\n"
                     },
                     {
-                      "text": "title is  Organization Structure\n"
+                      "text": "Add\n"
                     },
                     {
-                      "text": "\u001b[90mundefined\u001b[39m\n"
+                      "text": "title is  Add Report\n"
+                    },
+                    {
+                      "text": "Save\n"
+                    },
+                    {
+                      "text": "title is  Full Employee Report_088\n"
+                    },
+                    {
+                      "text": "title is  Employee Reports\n"
+                    },
+                    {
+                      "text": "[\n  \u001b[32m'All Employee Sub Unit Hierarchy Report'\u001b[39m,\n  \u001b[32m'Employee Contact info report'\u001b[39m,\n  \u001b[32m'Employee Job Details'\u001b[39m,\n  \u001b[32m'Full Employee Report_088'\u001b[39m,\n  \u001b[32m'Full Employee Report_123'\u001b[39m,\n  \u001b[32m'Full Employee Report_[object Promi'\u001b[39m,\n  \u001b[32m'Full Employee Report_[object Promise]'\u001b[39m,\n  \u001b[32m'PIM Sample Report'\u001b[39m,\n  \u001b[32m'qwe'\u001b[39m\n] \u001b[33m9\u001b[39m\n"
+                    },
+                    {
+                      "text": "\u001b[33m9\u001b[39m\n"
+                    },
+                    {
+                      "text": "Yes, Delete\n"
+                    },
+                    {
+                      "text": "[\n  \u001b[32m'All Employee Sub Unit Hierarchy Report'\u001b[39m,\n  \u001b[32m'Employee Contact info report'\u001b[39m,\n  \u001b[32m'Employee Job Details'\u001b[39m,\n  \u001b[32m'Full Employee Report_123'\u001b[39m,\n  \u001b[32m'Full Employee Report_[object Promi'\u001b[39m,\n  \u001b[32m'Full Employee Report_[object Promise]'\u001b[39m,\n  \u001b[32m'PIM Sample Report'\u001b[39m,\n  \u001b[32m'qwe'\u001b[39m\n] \u001b[33m8\u001b[39m\n"
+                    },
+                    {
+                      "text": "\u001b[33m8\u001b[39m\n"
                     }
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2023-03-29T20:02:37.400Z",
+                  "startTime": "2023-04-03T18:47:54.942Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "D:\\Orange_Hrm\\test-results\\organization-qwe-Chromium\\test-failed-1.png"
+                      "path": "D:\\Orange_Hrm\\test-results\\reports-Delete-a-Report-Chromium\\test-finished-1.png"
                     }
-                  ],
-                  "errorLocation": {
-                    "file": "D:\\Orange_Hrm\\pages\\homePage.ts",
-                    "column": 34,
-                    "line": 431
-                  }
+                  ]
                 }
               ],
-              "status": "unexpected"
+              "status": "expected"
             }
           ],
-          "id": "8cd5f6de25f7227090ca-ef90a6d8db36c7aca5b8",
-          "file": "organization.test.ts",
-          "line": 250,
+          "id": "dbf42936954d4841002d-e14654b2d9f40b36b183",
+          "file": "reports.test.ts",
+          "line": 63,
           "column": 6
         }
       ]

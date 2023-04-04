@@ -1,6 +1,6 @@
 import { expect, Page } from "@playwright/test";
 
-export class loginPage{
+export class LoginPage{
 
     readonly page : Page;
     readonly loginLocators: any;
@@ -18,11 +18,10 @@ export class loginPage{
         this.homePageLocators ={
             admin : "//span[text()='Admin']"
         }
-
            
         }
 
-        async baseURL(){
+        async goToBaseURL(){
             await this.page.goto("/");
         }
 
@@ -44,8 +43,6 @@ export class loginPage{
             const url = await this.page.url();
             console.log(url);
             expect (url).toContain('login');
-          // await expect (this.page).toHaveURL('/.*login/');
         }
         
-
     }

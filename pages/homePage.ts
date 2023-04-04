@@ -1,6 +1,10 @@
 import { expect, Locator, Page } from "@playwright/test";
+import { Utils } from "../commonUtils/utils";
+import { LoginPage } from "./loginpage";
 
-export class homePage{
+let utils:Utils;
+let loginPage : LoginPage;
+export class HomePage{
     readonly page : Page;
     readonly homePageLocators : any;
     readonly logOutmenuLocator : any;
@@ -14,11 +18,13 @@ export class homePage{
     readonly textEle: (textElementName: any) => string;
     readonly spinner: string;
     
+    
 
-    //const randomText;
 
     constructor(page :Page){
         this.page = page
+        utils = new Utils(page);
+        loginPage = new LoginPage(page);
         this.homePageLocators={
             admin : "//span[text()='Admin']",
             adminHeader  : "//h6/parent::span",
@@ -109,6 +115,8 @@ export class homePage{
     async clickOnLogout(){
         await this.page.locator(this.logOutmenuLocator.logOutmenu).click();
         await this.page.click(this.logOutmenuLocator.logOutBtn);
+        await this.waitForSelector(loginPage.loginLocators.loginBtn);
+        
 
     }
     async addRecord(){
@@ -138,16 +146,11 @@ export class homePage{
         await this.page.locator(this.usermanagementLocator.passwordTxtFld).type('Playwright@1');
         await this.page.locator(this.usermanagementLocator.confirmPwdTxtFld).clear();
         await this.page.locator(this.usermanagementLocator.confirmPwdTxtFld).type('Playwright@1');
-       // await this.page.getByRole("button",{text :''})
-       // await product.getByRole('button', { name: 'Add to cart' }).click();
         await this.page.waitForTimeout(5000);
         await (await this.page.waitForSelector(this.saveBtn)).waitForElementState('stable');
         await this.page.locator(this.saveBtn).click({force:true, delay:5000});
         await this.waitForTimeout(10000);
-
-        // let mesg = await this.page.locator(this.toastMessage).textContent();
-        // console.log(mesg);
-        // await this.page.locator(this.closeIcon).click();
+       
         await (await this.page.waitForSelector(".orangehrm-container")).waitForElementState('stable');
         console.log("clicked");
         let userNameArray = await this.page.locator("//div[@class='oxd-table-card']/div/div[2]").allTextContents();
@@ -186,14 +189,7 @@ export class homePage{
         return result;
       }
 
-    //   async  getRanNum(length: number) {
-    //     const randomNumber = Math.floor(Math.random() * 1000); // generates a random number between 0 and 99
-    //     //const myString = "Random Number:";
-    //     const concatenatedString =  randomNumber.toString();
-    //     console.log(concatenatedString); // "Random Number: 42" (or any other random number between 0 and 99)
-        
-    //     return concatenatedString;
-    //  }
+    
       async generatePathForTableElement(text :string){
         //await this.page.locator('//div[div[text()="${text}"]]');
         await this.page.locator(`//div[div[text()="${text}"]]`)
@@ -207,8 +203,6 @@ export class homePage{
 
         await (await this.page.waitForSelector(".orangehrm-container")).waitForElementState('stable');
         await this.page.waitForTimeout(10000);
-
-        //div[div[text()='Alice.Duval']]
         await this.page.locator(this.usermanagementLocator.editIcon).click({force:true,delay:5000});
 
         await (await this.page.waitForSelector(this.usermanagementLocator.editUserHeader)).waitForElementState('stable');
@@ -228,11 +222,6 @@ export class homePage{
         await this.page.getByRole("button",{name : /^\s*Save\s*/i}).click({force:true , delay:3000});
        
         await this.page.waitForTimeout(10000);
-
-       // await (this.generatePathForTableElement(randomUname)).
-
-       // const tableElementName = await this.page.locator(this.usermanagementLocator.tableEleUsername).textContent();
-        //expect (tableElementName).toContain(randomUname);
 
         await (await this.page.waitForSelector(".orangehrm-container")).waitForElementState('stable');
         console.log("clicked");
@@ -271,7 +260,6 @@ export class homePage{
         await this.page.waitForTimeout(2000);
         await (await this.page.waitForSelector(this.homePageLocators.jobTitlesMenu)).waitForElementState('stable');
         await this.page.locator(this.homePageLocators.jobTitlesMenu).click();
-
         expect (await this.page.locator(this.jobTitlePageLocators.jobTitleHeader).textContent()).toContain('Job Titles');
       }
 
@@ -426,6 +414,7 @@ export class homePage{
       await this.page.click(`//a[text()='${subMenu}']`);
   }
 
+
   async verifyPageTitle(titleValue:string){
     await this.waitForTimeout(2000);
     const title =  await this.page.locator(`//*[normalize-space()='${titleValue}']`).textContent();
@@ -474,17 +463,10 @@ export class homePage{
   }
 
   async waitForSpinnerToDisappear() {
+    await this.page.waitForLoadState("domcontentloaded");
     const spinner = await this.page.waitForSelector(this.spinner);
     await spinner.waitForElementState("hidden");
   }
-
-
-
-    
-
-
-    
-
     
     
 }

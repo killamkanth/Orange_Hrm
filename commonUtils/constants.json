@@ -1,0 +1,50 @@
+{
+    "Menu":{
+        "pim": "PIM",
+        "addEmployee":"Add Employee",
+        "employeeList":"Employee List",
+        "employeeInformation":"Employee Information",
+        "job" : "Job"
+
+
+
+    },
+    "Slider":{
+        "createLoginDetails":"Create Login Details"
+
+    },
+    "Credentials":{
+        "userName":"Atmecs",
+        "password":"Atmecs@123",
+        "confirmPassword":"Atmecs@123"
+    },
+    "PimTextElements":{
+        "userName":"Username",
+        "password":"Password",
+        "confirmPassword":"Confirm Password",
+        "employeeId":"Employee Id",
+        "jobTitle"  : "Job Title"
+       
+
+    },
+    "PimData":{
+        "firstName":"John",
+        "lastName" :"Mathew",
+        "errorMessage" :"Required"
+    },
+    "Titles":{
+        "jobDetails" : "Job Details"
+    },
+    "DDValues":{
+
+        "jobTitleDDValue" : "QA Engineer"
+    },
+
+    "save":"Save",
+    "delete":"Yes, Delete",
+    "deleteSelected":"Delete Selected"
+
+
+
+
+}

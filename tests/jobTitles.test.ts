@@ -1,27 +1,26 @@
 import {test, Page, expect } from "@playwright/test";
-import { homePage } from "../pages/homePage";
-import { loginPage } from "../pages/loginpage";
+import { HomePage } from "../pages/homePage";
+import { LoginPage } from "../pages/loginpage";
 
 
 let page : Page
-let browser,context : any
-let loginpage : loginPage
-let homepage : homePage
+let loginpage : LoginPage
+let homepage : HomePage
 
 test.beforeAll(async({ browser})=>{
-    // browser = await chromium.launch();
-    // context = await browser.newContext();
+ 
     page = await browser.newPage();
+    loginpage = new LoginPage(page);
+    homepage = new HomePage(page);
      
 })
 
 test('Add Job Title',async()=>{
-    loginpage = new loginPage(page);
-    await loginpage.baseURL();
+  
+    await loginpage.goToBaseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
 
-    homepage = new homePage(page);
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
     await homepage.verifyJobTitle();
@@ -33,12 +32,11 @@ test('Add Job Title',async()=>{
 
 test('Delete JobTitle',async()=>{
 
-    loginpage = new loginPage(page);
-    await loginpage.baseURL();
+
+    await loginpage.goToBaseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
 
-    homepage = new homePage(page);
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
     await homepage.verifyJobTitle();
@@ -47,9 +45,6 @@ test('Delete JobTitle',async()=>{
 
     console.log(value);
 
-    //div[div[text()='Account Assistant']]/following-sibling::div//button[i[@class='oxd-icon bi-trash']]
-
-   // await (await homepage.generatePathForEditIcon(value)).click();
    await homepage.deleteJobTitleRecord(value);
    await page.waitForTimeout(3000);
    let val =await homepage.verifyJobTitleRecordTable(value);
@@ -59,12 +54,10 @@ test('Delete JobTitle',async()=>{
 
 test('Edit Job Title', async()=>{
 
-    loginpage = new loginPage(page);
-    await loginpage.baseURL();
+    await loginpage.goToBaseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
 
-    homepage = new homePage(page);
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
     await homepage.verifyJobTitle();
@@ -86,12 +79,10 @@ test('Edit Job Title', async()=>{
 
 test.only('Delete Multiple Records', async()=>{
 
-    loginpage = new loginPage(page);
-    await loginpage.baseURL();
+    await loginpage.goToBaseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
 
-    homepage = new homePage(page);
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
     await homepage.verifyJobTitle();

@@ -1,34 +1,29 @@
 import {test,  Page, expect } from "@playwright/test"
-import { homePage } from "../pages/homePage"
-import { loginPage } from "../pages/loginpage"
-import { organizationPage } from "../pages/organizationPage"
+import { HomePage } from "../pages/homePage"
+import { LoginPage } from "../pages/loginpage"
+import { OrganizationPage } from "../pages/organizationPage"
 
 
 let page : Page
-let loginpage : loginPage
-let homepage : homePage
-let organizationpage: organizationPage
+let loginpage : LoginPage
+let homepage : HomePage
+let organizationpage: OrganizationPage
 
 
 test.beforeAll(async({ browser})=>{
-    // browser = await chromium.launch();
-    // context = await browser.newContext();
      page = await browser.newPage();
-     loginpage = new loginPage(page);
-     homepage = new homePage(page);
-     organizationpage = new organizationPage(page);
+     loginpage = new LoginPage(page);
+     homepage = new HomePage(page);
+     organizationpage = new OrganizationPage(page);
      
 })
 
 test('Edit General Information', async()=>{
 
-
-    //loginpage = new loginPage(page);
-    await loginpage.baseURL();
+    await loginpage.goToBaseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
 
-    //homepage = new homePage(page);
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
 
@@ -37,7 +32,6 @@ test('Edit General Information', async()=>{
     let boo = await homepage.verifyPageTitle('General Information');
     expect (boo).toBeTruthy();
 
-    organizationpage = new organizationPage(page);
     await organizationpage.clickAndVerifyToggleIcon();
 
     const value = await organizationpage.fillGeneralInformationDetails('Orange HRM');
@@ -48,16 +42,13 @@ test('Edit General Information', async()=>{
 
 test('Add Location Record',async()=>{
 
-    //loginpage = new loginPage(page);
-    await loginpage.baseURL();
+    await loginpage.goToBaseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
 
-    //homepage = new homePage(page);
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
 
-    //organizationpage = new organizationPage(page);
     await homepage.navigateToMenuSubMenu('Organization','Locations');
     await homepage.waitForTimeout(2000);
     await organizationpage.verifyLocationPageTitle();
@@ -66,29 +57,22 @@ test('Add Location Record',async()=>{
     await homepage.waitForTimeout(2000);
     let boo = await homepage.verifyPageTitle('Add Location');
     console.log(boo);
-    //await expect (boo).toBeTruthy();
 
-    const value = await organizationpage.fillAddLocationDetails('Sweden');
-   
-
+    const value = await organizationpage.fillAddLocationDetails('Sweden');  
     let boolVal =await organizationpage.verifyRecordTable(value);
-    await expect (boolVal).toBeTruthy();
+    expect (boolVal).toBeTruthy();
 
 })
 
 test('Delete Location Record', async()=>{
 
-
-    //loginpage = new loginPage(page);
-    await loginpage.baseURL();
+    await loginpage.goToBaseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
 
-    //homepage = new homePage(page);
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
 
-    //organizationpage = new organizationPage(page);
     await homepage.navigateToMenuSubMenu('Organization','Locations');
     await homepage.waitForTimeout(2000);
     await organizationpage.verifyLocationPageTitle();
@@ -97,34 +81,31 @@ test('Delete Location Record', async()=>{
     await homepage.waitForTimeout(2000);
     let boo = await homepage.verifyPageTitle('Add Location');
     console.log(boo);
-    //await expect (boo).toBeTruthy();
 
     const value = await organizationpage.fillAddLocationDetails('Sweden');
    
 
     let boolVal =await organizationpage.verifyRecordTable(value);
-    await expect (boolVal).toBeTruthy();
+    expect (boolVal).toBeTruthy();
 
     await (await homepage.generatePathForDeleteIcon(value)).click();
     await (await homepage.getButtonElement('Yes, Delete')).click();
     await homepage.waitForTimeout(3000);
 
     boolVal =await organizationpage.verifyRecordTable(value);
-    await expect (boolVal).toBeFalsy();
+    expect (boolVal).toBeFalsy();
 
 })
 
 test('System should not allow user to Add Record with existing Location Name',async()=>{
-    //loginpage = new loginPage(page);
-    await loginpage.baseURL();
+
+    await loginpage.goToBaseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
 
-    //homepage = new homePage(page);
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
 
-    //organizationpage = new organizationPage(page);
     await homepage.navigateToMenuSubMenu('Organization','Locations');
     await homepage.waitForTimeout(2000);
     await organizationpage.verifyLocationPageTitle();
@@ -132,9 +113,7 @@ test('System should not allow user to Add Record with existing Location Name',as
     await (await homepage.getButtonElement('Add')).click();
     await homepage.waitForTimeout(2000);
     let boo = await homepage.verifyPageTitle('Add Location');
-    //console.log(boo);
-   // await expect (boo).toBeTruthy();
-
+ 
     const value = await organizationpage.fillAddLocationDetails('Sweden');
    
 
@@ -144,7 +123,6 @@ test('System should not allow user to Add Record with existing Location Name',as
     await (await homepage.getButtonElement('Add')).click();
     await homepage.waitForTimeout(2000);
     let boo1 = await homepage.verifyPageTitle('Add Location');
-   // await expect (boo1).toBeTruthy();
 
     await (await homepage.getTextElement('Name')).clear();
     await (await homepage.getTextElement('Name')).type(value);
@@ -156,16 +134,13 @@ test('System should not allow user to Add Record with existing Location Name',as
 //Done
 test('Edit Location Record', async()=>{
 
-    //loginpage = new loginPage(page);
-    await loginpage.baseURL();
+    await loginpage.goToBaseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
 
-   // homepage = new homePage(page);
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
 
-    //organizationpage = new organizationPage(page);
     await homepage.navigateToMenuSubMenu('Organization','Locations');
     await homepage.waitForTimeout(2000);
     await organizationpage.verifyLocationPageTitle();
@@ -174,7 +149,6 @@ test('Edit Location Record', async()=>{
     await homepage.waitForTimeout(2000);
     let boo = await homepage.verifyPageTitle('Add Location');
     console.log(boo);
-    //await expect (boo).toBeTruthy();
 
     const value = await organizationpage.fillAddLocationDetails('Sweden');
    
@@ -202,16 +176,13 @@ test('Edit Location Record', async()=>{
 
 test('Delete Multiple Location Records' , async()=>{
 
-    //loginpage = new loginPage(page);
-    await loginpage.baseURL();
+    await loginpage.goToBaseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
 
-    //homepage = new homePage(page);
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
 
-    organizationpage = new organizationPage(page);
     await homepage.navigateToMenuSubMenu('Organization','Locations');
     await homepage.waitForTimeout(2000);
     await organizationpage.verifyLocationPageTitle();
@@ -220,7 +191,6 @@ test('Delete Multiple Location Records' , async()=>{
     await homepage.waitForTimeout(2000);
     let boo = await homepage.verifyPageTitle('Add Location');
     console.log(boo);
-    //await expect (boo).toBeTruthy();
 
     const locValue1 = await organizationpage.fillAddLocationDetails('Sweden');
    
@@ -229,6 +199,7 @@ test('Delete Multiple Location Records' , async()=>{
     expect (boolVal).toBeTruthy();
 
     await (await homepage.getButtonElement('Add')).click();
+    await page.waitForLoadState("domcontentloaded");
     await homepage.waitForTimeout(2000);
     boo = await homepage.verifyPageTitle('Add Location');
     console.log(boo);
@@ -251,16 +222,13 @@ test('Delete Multiple Location Records' , async()=>{
 
 ///Admin->Organisation->Structure
 test('Add an Organisation Unit',async()=>{
-    //loginpage = new loginPage(page);
-    await loginpage.baseURL();
+    await loginpage.goToBaseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
 
-   // homepage = new homePage(page);
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
 
-    //organizationpage = new organizationPage(page);
     await homepage.navigateToMenuSubMenu('Organization','Structure');
     await homepage.waitForTimeout(2000);
 
@@ -292,16 +260,13 @@ test('Add an Organisation Unit',async()=>{
 })
 
 test('Should throw an error message while Addiing an Organisation Unit with existing name',async()=>{
-    //loginpage = new loginPage(page);
-    await loginpage.baseURL();
+    await loginpage.goToBaseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
 
-   // homepage = new homePage(page);
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
 
-    //organizationpage = new organizationPage(page);
     await homepage.navigateToMenuSubMenu('Organization','Structure');
     await homepage.waitForTimeout(2000);
 
@@ -350,16 +315,13 @@ test('Should throw an error message while Addiing an Organisation Unit with exis
 })
 test.only('Delete an Organisation Unit',async()=>{
 
-    //loginpage = new loginPage(page);
-    await loginpage.baseURL();
+    await loginpage.goToBaseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
 
-   // homepage = new homePage(page);
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
 
-    //organizationpage = new organizationPage(page);
     await homepage.navigateToMenuSubMenu('Organization','Structure');
     await homepage.waitForTimeout(2000);
 
@@ -415,16 +377,13 @@ test.only('Delete an Organisation Unit',async()=>{
 
 test('Edit Organisation Unit',async()=>{
 
-     //loginpage = new loginPage(page);
-     await loginpage.baseURL();
+     await loginpage.goToBaseURL();
      await loginpage.fillLoginDetails();
      await loginpage.clickOnLogin();
  
-    // homepage = new homePage(page);
      await homepage.verifyLogin();
      await homepage.verifyAdmin();
  
-     //organizationpage = new organizationPage(page);
      await homepage.navigateToMenuSubMenu('Organization','Structure');
      await homepage.waitForTimeout(2000);
  
@@ -433,7 +392,6 @@ test('Edit Organisation Unit',async()=>{
  
      await organizationpage.clickOnEditToggleIcon();
      await homepage.waitForSelector(organizationpage.organizationStructureLocators.editOrganisationUnitIcon);
-    // await (await page.waitForSelector(homepage.buttonEle('Add'))).waitForElementState('stable');
  
      await page.locator(organizationpage.organizationStructureLocators.editOrganisationUnitIcon).click();
    
@@ -447,11 +405,8 @@ test('Edit Organisation Unit',async()=>{
     await (await homepage.getTextElement('Name')).type(value);
     await homepage.waitForTimeout(1000);
     await (await homepage.getButtonElement('Save')).click();
-    //await homepage.waitForTimeout(1000);
     await page.waitForLoadState("load");
-    //await homepage.waitForSelector(".org-container");
-   // await homepage.waitForTimeout(3000);
-   // await page.waitForEvent("close");
+    
     let status = organizationpage.verifyOrganizationStructureTable(value);
     expect (status).toBeTruthy();
 

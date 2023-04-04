@@ -1,33 +1,33 @@
 import { Page, expect, test } from "@playwright/test";
-import { loginPage } from "../pages/loginpage";
+import { LoginPage } from "../pages/loginpage";
 import { Utils } from "../commonUtils/utils";
-import { homePage } from "../pages/homePage";
-import { reportsPage } from "../pages/reportsPage";
-import { organizationPage } from "../pages/organizationPage";
+import { HomePage } from "../pages/homePage";
+import { ReportsPage } from "../pages/reportsPage";
+import { OrganizationPage } from "../pages/organizationPage";
 
 
 let page : Page
-let loginpage : loginPage
-let homepage : homePage
+let loginpage : LoginPage
+let homepage : HomePage
 let utils : Utils
-let reportspage :reportsPage
-let organizationpage : organizationPage
+let reportspage :ReportsPage
+let organizationpage : OrganizationPage
 
 test.beforeAll(async({ browser})=>{
     // browser = await chromium.launch();
     // context = await browser.newContext();
     page = await browser.newPage();
-    loginpage = new loginPage(page);
-    homepage = new homePage(page);
-    reportspage = new reportsPage(page);
+    loginpage = new LoginPage(page);
+    homepage = new HomePage(page);
+    reportspage = new ReportsPage(page);
     utils = new Utils(page);
-    organizationpage = new organizationPage(page);
+    organizationpage = new OrganizationPage(page);
     
 })
 
 test('Add a Report',async()=>{
 
-    await loginpage.baseURL();
+    await loginpage.goToBaseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
 
@@ -62,7 +62,7 @@ test('Add a Report',async()=>{
 
 test.only('Delete a Report',async()=>{
 
-    await loginpage.baseURL();
+    await loginpage.goToBaseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
 

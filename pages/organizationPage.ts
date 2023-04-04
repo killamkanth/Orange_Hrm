@@ -1,10 +1,10 @@
 import {expect ,  Page } from "@playwright/test";
-import { homePage } from "./homePage";
+import { HomePage } from "./homePage";
 
-export class organizationPage{
+export class OrganizationPage{
 
     readonly page : Page;
-    readonly homepage: homePage;
+    readonly homepage: HomePage;
     readonly generalInformationLocators: any;
     readonly locationsLocators:any;
     readonly editToggleIcon: any;
@@ -14,7 +14,7 @@ export class organizationPage{
 
     constructor(page :Page){
         this.page = page
-        this.homepage = new homePage(page);
+        this.homepage = new HomePage(page);
         // this.generalInformationLocators={
         //     editToggleIcon :"//label[normalize-space()='Edit']/child::span",
             
@@ -155,7 +155,6 @@ export class organizationPage{
         
         const arrayList =  await this.page.locator(".org-name").allTextContents();
         console.log(arrayList , arrayList.length);
-       // let boo =  arrayList.includes(val);
         let boo;
         for(const name of arrayList){
            const actVal= name.trim();

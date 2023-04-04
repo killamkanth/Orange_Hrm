@@ -1,16 +1,15 @@
-import { Page, expect } from "@playwright/test";
-//import { utils } from "./utilsPage";
+import { Page } from "@playwright/test";
 import { Utils } from "../commonUtils/utils";
-import { homePage } from "./homePage";
-import { organizationPage } from "./organizationPage";
+import { HomePage } from "./homePage";
+import { OrganizationPage } from "./organizationPage";
 
-export class configurationPage{
+export class ConfigurationPage{
 
     readonly page : Page;
     readonly slider: (sliderValue: any) => string;
     readonly utils: Utils;
-    readonly homepage: homePage;
-    readonly organizationpage: organizationPage;
+    readonly homepage: HomePage;
+    readonly organizationpage: OrganizationPage;
     readonly tableFieldNamelocator: string;
     readonly tablelocator: string;
     readonly errorMesg: string;
@@ -22,8 +21,8 @@ export class configurationPage{
     constructor(page : Page){
         this.page =page;
         this.utils = new Utils(page);
-        this.homepage = new homePage(page);
-        this.organizationpage = new organizationPage(page);
+        this.homepage = new HomePage(page);
+        this.organizationpage = new OrganizationPage(page);
 
         this.tableFieldNamelocator = "//div[@class='oxd-table-card']//div[2]";
         this.tablelocator =".orangehrm-container",
@@ -39,7 +38,6 @@ export class configurationPage{
       
         
             await this.page.locator(this.slider(sliderValue)).setChecked(checkedStatus);
-            //await this.page.waitFor
             let bool= await this.page.locator(this.slider(sliderValue)).isChecked();
             return bool;
 

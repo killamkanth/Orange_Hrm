@@ -1,15 +1,15 @@
 import { Page } from "@playwright/test";
 import { Utils } from "../commonUtils/utils";
-import { organizationPage } from "./organizationPage";
+import { OrganizationPage } from "./organizationPage";
 
-export class reportsPage{
+export class ReportsPage{
 
     readonly page : Page;
-    readonly reportspage: reportsPage;
+    readonly reportspage: ReportsPage;
     readonly employeeReportsTitle: string;
     readonly plusBtn: string;
     readonly utils: Utils;
-    readonly organizationpage: organizationPage;
+    readonly organizationpage: OrganizationPage;
     readonly reportTable: string;
     readonly reportTitle: (titleName: any) => string;
     readonly tableFieldNamelocator: string;
@@ -19,7 +19,7 @@ export class reportsPage{
     constructor(page : Page){
         this.page =page;
         this.utils=new Utils(page);
-        this.organizationpage = new organizationPage(page);
+        this.organizationpage = new OrganizationPage(page);
 
 
         this.employeeReportsTitle ="//h5[normalize-space()='Employee Reports']";
@@ -42,7 +42,7 @@ export class reportsPage{
         await this.organizationpage.selectDropdownValues('Select Display Field Group','Personal');
         await this.utils.clickOnElement(this.plusBtn);
         await this.page.waitForTimeout(1000);
-        await this.page.waitForLoadState('load');
+        await this.page.waitForLoadState("domcontentloaded");
 
         return name;
 

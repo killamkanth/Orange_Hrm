@@ -20,7 +20,6 @@ test('Add Job Title', async () => {
     await loginpage.goToBaseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
-
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
     await homepage.verifyJobTitle();
@@ -36,7 +35,6 @@ test('Delete JobTitle', async () => {
     await loginpage.goToBaseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
-
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
     await homepage.verifyJobTitle();
@@ -57,7 +55,6 @@ test('Edit Job Title', async () => {
     await loginpage.goToBaseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
-
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
     await homepage.verifyJobTitle();

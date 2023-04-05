@@ -69,14 +69,11 @@ test('Delete Location Record', async () => {
     await loginpage.goToBaseURL();
     await loginpage.fillLoginDetails();
     await loginpage.clickOnLogin();
-
     await homepage.verifyLogin();
     await homepage.verifyAdmin();
-
     await homepage.navigateToMenuSubMenu('Organization', 'Locations');
     await homepage.waitForTimeout(2000);
     await organizationpage.verifyLocationPageTitle();
-
     await (await homepage.getButtonElement('Add')).click();
     await homepage.waitForTimeout(2000);
     let boo = await homepage.verifyPageTitle('Add Location');

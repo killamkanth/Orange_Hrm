@@ -30,6 +30,7 @@ export class ConfigurationPage{
     }
 
     async setSliderElement(sliderValue:string,checkedStatus:boolean){
+
             await this.page.locator(this.slider(sliderValue)).setChecked(checkedStatus);
             let bool= await this.page.locator(this.slider(sliderValue)).isChecked();
             return bool;

@@ -163,7 +163,7 @@ test('Edit Employee Record', async () => {
     let status = await utils.verifyRecordTable(addEmployeePage.tableContainer, addEmployeePage.tableIdlocator, employeeId);
     expect(status).toBeTruthy();
     await (await utils.generatePathForEditIcon(employeeId)).click();
-    
+
     await utils.clickOnElement(utils.menuEle(Constants.Menu.job));
     await utils.verifyPageTitle(Constants.Titles.jobDetails);
     await homepage.waitForSpinnerToDisappear();

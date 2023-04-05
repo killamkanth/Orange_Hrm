@@ -11,9 +11,11 @@ export class Utils {
   readonly menuEle: (menuElement: any) => string;
   readonly slider: (sliderValue: any) => string;
   readonly tableElementValue: (elementValue: any) => string;
+  readonly spinner: string;
 
   constructor(page: Page) {
     this.page = page;
+    this.spinner = '.oxd-loading-spinner-container',
     this.leftPanelEle = (sideMenuName) => {
       return `//a[span[normalize-space()='${sideMenuName}']]`;
 
@@ -46,8 +48,7 @@ export class Utils {
   }
 
   async clickOnMenuElement(elementName: string) {
-    //const titleValue = await this.page.locator(this.leftPanelEle(titleName)).textContent();
-    //expect (titleValue).toBe(titleName);
+    await this.waitForSelector(this.leftPanelEle(elementName));
     await this.page.locator(this.leftPanelEle(elementName)).click();
 
   }
@@ -59,11 +60,9 @@ export class Utils {
   }
 
   async verifyPageTitle(titleValue: string) {
-    //await this.page.waitForTimeout(2000);
     await this.waitForSelector(this.subPageTitleElement(titleValue));
     const title = await this.page.locator(this.subPageTitleElement(titleValue)).textContent();
     console.log('title is ', title);
-    //await this.page.waitForTimeout(1500);
     let boo = expect(title).toEqual(titleValue);
 
     return boo;
@@ -77,7 +76,6 @@ export class Utils {
 
   async getTextElement(textElementName: string) {
     await this.waitForSelector(this.textEle(textElementName));
-    await this.page.waitForTimeout(1000);
     const textElement = this.page.locator(this.textEle(textElementName));
     return textElement;
   }
@@ -97,7 +95,6 @@ export class Utils {
   async verifyRecordTable(tablelocator: string, locator: string, value: string) {
 
     await (await this.page.waitForSelector(tablelocator)).waitForElementState('stable');
-    await this.page.waitForTimeout(3000);
     const locationArray = await this.page.locator(locator).allTextContents();
     console.log(locationArray, locationArray.length);
 
@@ -132,68 +129,73 @@ export class Utils {
   }
 
   async generatePathForDeleteIcon(tableRecValue: string) {
-    let ele = await this.page.locator(`//div[div[text()='${tableRecValue}']]/following-sibling::div//button[i[@class='oxd-icon bi-trash']]`)
+    await this.waitForSelector(`//div[div[text()='${tableRecValue}']]/following-sibling::div//button[i[@class='oxd-icon bi-trash']]`);
+    let ele = await this.page.locator(`//div[div[text()='${tableRecValue}']]/following-sibling::div//button[i[@class='oxd-icon bi-trash']]`);
     return ele;
   }
 
   async generatePathForEditIcon(tableRecValue: string) {
-    let ele = await this.page.locator(`//div[div[text()='${tableRecValue}']]/following-sibling::div//button[i[@class='oxd-icon bi-pencil-fill']]`)
+    let ele = await this.page.locator(`//div[div[text()='${tableRecValue}']]/following-sibling::div//button[i[@class='oxd-icon bi-pencil-fill']]`);
     return ele;
   }
 
   async generatePathForCheckBoxElement(jobName: string) {
-    let ele = await this.page.locator(`//div[div[text()='${jobName}']]/preceding-sibling::div//label`)
+    let ele = await this.page.locator(`//div[div[text()='${jobName}']]/preceding-sibling::div//label`);
     return ele;
   }
 
   async selectChckboxInTable(inputvalue: string, locator: string) {
-    //await this.page.waitForTimeout(3000);
     await (await this.page.waitForSelector(locator)).waitForElementState('stable');
     await (await this.generatePathForCheckBoxElement(inputvalue)).click();
-    await this.page.waitForTimeout(1000);
+   
 
   }
 
   async navigateToMenuSubMenu(menu: string) {
-    await this.page.waitForTimeout(2000);
+    await this.waitForSelector(this.menuEle(menu));
     await this.page.click(this.menuEle(menu));
   }
 
   async verifyPageTitleByPassingLocator(locator: string, titleValue: string) {
-    await this.page.waitForTimeout(2000);
+    await (await this.page.waitForSelector(locator)).waitForElementState('stable');
     const title = await this.page.locator(locator).textContent();
     console.log('title is ', title);
-    await this.page.waitForTimeout(1500);
     let boo = expect(title).toEqual(titleValue);
 
     return boo;
   }
 
   async getSliderstatus(sliderValue: string, checkedStatus: boolean) {
-    let bool = await this.page.locator(this.slider(sliderValue)).isChecked();
-    console.log("bool", bool);
-    if (bool) {
+    let booleanValue = await this.page.locator(this.slider(sliderValue)).isChecked();
+    console.log("booleanValue", booleanValue);
+    if (booleanValue) {
       console.log("Slider is already Checked");
     } else {
       await this.page.locator(this.slider(sliderValue)).setChecked(checkedStatus);
       console.log("Slider is now Checked");
       await this.waitForSelector(this.slider(sliderValue));
-      bool = await this.page.locator(this.slider(sliderValue)).isChecked();
+      booleanValue = await this.page.locator(this.slider(sliderValue)).isChecked();
     }
-    return bool;
+    return booleanValue;
   }
 
   async selectDropdownValues(ddName: string, ddValue: string) {
     await (await this.getTextElement(ddName)).click();
-    await this.page.waitForTimeout(2000);
+    await this.waitForSelector(`//div[span[normalize-space()='${ddValue}']]`);
     await this.page.locator(`//div[span[normalize-space()='${ddValue}']]`).click();
-    await this.page.waitForTimeout(2000);
+    await this.page.waitForLoadState('domcontentloaded');
   }
   async verifySpecificRowData(tableElementValue:string,elementValue: string){
     const rowDataArray =await this.page.locator(this.tableElementValue(tableElementValue)).allTextContents();
     console.log(rowDataArray,rowDataArray.length);
     let boo =rowDataArray.includes(elementValue);
     return boo;
+  }
+
+  async waitForSpinnerToDisappear() {
+    await this.page.waitForLoadState("domcontentloaded");
+    const spinner = await this.page.waitForSelector(this.spinner);
+    await spinner.waitForElementState("hidden");
   }
 
 }

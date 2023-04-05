@@ -1,50 +1,43 @@
 {
-    "Menu":{
+    "AdminCredentials":{
+        "userName" : "Admin",
+        "password" : "Admin@123"
+    },
+    "Menu": {
         "pim": "PIM",
-        "addEmployee":"Add Employee",
-        "employeeList":"Employee List",
-        "employeeInformation":"Employee Information",
-        "job" : "Job"
-
-
-
+        "addEmployee": "Add Employee",
+        "employeeList": "Employee List",
+        "employeeInformation": "Employee Information",
+        "job": "Job",
+        "admin": "Admin"
     },
-    "Slider":{
-        "createLoginDetails":"Create Login Details"
-
+    "Slider": {
+        "createLoginDetails": "Create Login Details"
     },
-    "Credentials":{
-        "userName":"Atmecs",
-        "password":"Atmecs@123",
-        "confirmPassword":"Atmecs@123"
+    "Credentials": {
+        "userName": "Atmecs",
+        "password": "Atmecs@123",
+        "confirmPassword": "Atmecs@123"
     },
-    "PimTextElements":{
-        "userName":"Username",
-        "password":"Password",
-        "confirmPassword":"Confirm Password",
-        "employeeId":"Employee Id",
-        "jobTitle"  : "Job Title"
-       
-
+    "PimTextElements": {
+        "userName": "Username",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "employeeId": "Employee Id",
+        "jobTitle": "Job Title"
     },
-    "PimData":{
-        "firstName":"John",
-        "lastName" :"Mathew",
-        "errorMessage" :"Required"
+    "PimData": {
+        "firstName": "John",
+        "lastName": "Mathew",
+        "errorMessage": "Required"
     },
-    "Titles":{
-        "jobDetails" : "Job Details"
+    "Titles": {
+        "jobDetails": "Job Details"
     },
-    "DDValues":{
-
-        "jobTitleDDValue" : "QA Engineer"
+    "DDValues": {
+        "jobTitleDDValue": "QA Engineer"
     },
-
-    "save":"Save",
-    "delete":"Yes, Delete",
-    "deleteSelected":"Delete Selected"
-
-
-
-
+    "save": "Save",
+    "delete": "Yes, Delete",
+    "deleteSelected": "Delete Selected"
 }

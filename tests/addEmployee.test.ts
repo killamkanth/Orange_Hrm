@@ -6,12 +6,8 @@ import { AddEmployeePage } from "../pages/addEmployeePage"
 import { EmployeeListPage } from "../pages/employeeListPage"
 import Constants from "../commonUtils/constants.json"
 
-let page: Page
-let loginpage: LoginPage
-let homepage: HomePage
-let utils: Utils
-let addEmployeePage: AddEmployeePage
-let employeeListPage: EmployeeListPage
+let page: Page, loginpage: LoginPage, homepage: HomePage, utils: Utils, addEmployeePage: AddEmployeePage, employeeListPage: EmployeeListPage
+
 
 test.beforeAll(async ({ browser }) => {
 
@@ -25,7 +21,7 @@ test.beforeAll(async ({ browser }) => {
 
 })
 
-test('Add Employee', async () => {
+test('Add Employee Reocrd', async () => {
 
     await loginpage.goToBaseURL();
     await loginpage.fillLoginDetails();
@@ -41,6 +37,7 @@ test('Add Employee', async () => {
     await utils.waitForSelector(addEmployeePage.tableContainer);
     await utils.navigateToMenuSubMenu(Constants.Menu.employeeList);
     await utils.waitForSelector(addEmployeePage.tableContainer);
+    await utils.waitForSpinnerToDisappear();
     let status = await utils.verifyRecordTable(addEmployeePage.tableContainer, addEmployeePage.tableIdlocator, employeeId);
     expect(status).toBeTruthy();
     await homepage.clickOnLogout();
@@ -48,7 +45,7 @@ test('Add Employee', async () => {
 
 })
 
-test('Delete an Employee', async () => {
+test('Delete Employee Record', async () => {
 
     await loginpage.goToBaseURL();
     await loginpage.fillLoginDetails();
@@ -64,6 +61,7 @@ test('Delete an Employee', async () => {
     await utils.waitForSelector(addEmployeePage.tableContainer);
     await utils.navigateToMenuSubMenu(Constants.Menu.employeeList);
     await utils.waitForSelector(addEmployeePage.tableContainer);
+    await utils.waitForSpinnerToDisappear();
     await utils.verifyPageTitleByPassingLocator(employeeListPage.employeeInformationTitle, Constants.Menu.employeeInformation);
     let status = await utils.verifyRecordTable(addEmployeePage.tableContainer, addEmployeePage.tableIdlocator, employeeId);
     expect(status).toBeTruthy();
@@ -113,6 +111,7 @@ test("Delete Multiple Employee Records", async () => {
     await utils.waitForSelector(addEmployeePage.tableContainer);
     await utils.navigateToMenuSubMenu(Constants.Menu.employeeList);
     await utils.waitForSelector(addEmployeePage.tableContainer);
+    await utils.waitForSpinnerToDisappear();
     await utils.verifyPageTitleByPassingLocator(employeeListPage.employeeInformationTitle, Constants.Menu.employeeInformation);
     let status = await utils.verifyRecordTable(addEmployeePage.tableContainer, addEmployeePage.tableIdlocator, employeeId1);
     expect(status).toBeTruthy();
@@ -124,6 +123,7 @@ test("Delete Multiple Employee Records", async () => {
     await utils.waitForSelector(addEmployeePage.tableContainer);
     await utils.navigateToMenuSubMenu(Constants.Menu.employeeList);
     await utils.waitForSelector(addEmployeePage.tableContainer);
+    await utils.waitForSpinnerToDisappear();
     await utils.verifyPageTitleByPassingLocator(employeeListPage.employeeInformationTitle, Constants.Menu.employeeInformation);
     status = await utils.verifyRecordTable(addEmployeePage.tableContainer, addEmployeePage.tableIdlocator, employeeId2);
     expect(status).toBeTruthy();
@@ -142,7 +142,7 @@ test("Delete Multiple Employee Records", async () => {
 
 })
 
-test.only('Edit Employee Record', async () => {
+test('Edit Employee Record', async () => {
 
     await loginpage.goToBaseURL();
     await loginpage.fillLoginDetails();
@@ -158,10 +158,12 @@ test.only('Edit Employee Record', async () => {
     await utils.waitForSelector(addEmployeePage.tableContainer);
     await utils.navigateToMenuSubMenu(Constants.Menu.employeeList);
     await utils.waitForSelector(addEmployeePage.tableContainer);
+    await utils.waitForSpinnerToDisappear();
     await utils.verifyPageTitleByPassingLocator(employeeListPage.employeeInformationTitle, Constants.Menu.employeeInformation);
     let status = await utils.verifyRecordTable(addEmployeePage.tableContainer, addEmployeePage.tableIdlocator, employeeId);
     expect(status).toBeTruthy();
     await (await utils.generatePathForEditIcon(employeeId)).click();
+    
     await utils.clickOnElement(utils.menuEle(Constants.Menu.job));
     await utils.verifyPageTitle(Constants.Titles.jobDetails);
     await homepage.waitForSpinnerToDisappear();

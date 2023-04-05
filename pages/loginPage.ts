@@ -1,4 +1,5 @@
 import { expect, Page } from "@playwright/test";
+import Constants from "../commonUtils/constants.json"
 
 export class LoginPage{
 
@@ -26,9 +27,8 @@ export class LoginPage{
         }
 
         async fillLoginDetails(){
-            await this.page.getByPlaceholder(this.loginLocators.username).fill("Admin");
-            await this.page.getByPlaceholder(this.loginLocators.password).fill("admin123");
-
+            await this.page.getByPlaceholder(this.loginLocators.username).fill(Constants.AdminCredentials.userName);
+            await this.page.getByPlaceholder(this.loginLocators.password).fill(Constants.AdminCredentials.password);
         }
 
         async clickOnLogin(){
@@ -36,7 +36,7 @@ export class LoginPage{
         }
 
         async verifyLogin(){
-            await expect (this.page.locator(this.homePageLocators.admin)).toHaveText("Admin");
+            await expect (this.page.locator(this.homePageLocators.admin)).toHaveText(Constants.Menu.admin);
         }
 
         async verifyLogout(){

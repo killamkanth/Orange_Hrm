@@ -34,11 +34,12 @@ export class AddEmployeePage {
     //  
 
     async fillEmployeeDetails() {
+        const employeeId = await utils.getRanNum(4);
         await this.page.locator(this.firstName).type(Constants.PimData.firstName);
         await this.page.locator(this.lastName).type(Constants.PimData.lastName);
-        const employeeId = await (await utils.getTextElement(Constants.PimTextElements.employeeId)).inputValue();
+        (await utils.getTextElement(Constants.PimTextElements.employeeId)).clear();
+        (await utils.getTextElement(Constants.PimTextElements.employeeId)).type(employeeId);
         let status = await utils.getSliderstatus(Constants.Slider.createLoginDetails, true);
-        console.log("status",status);
         expect (status).toBeTruthy();
         const value = Constants.Credentials.userName + await utils.getRanNum(3);
         await (await utils.getTextElement(Constants.PimTextElements.userName)).type(value);
@@ -47,10 +48,10 @@ export class AddEmployeePage {
 
         let boolStatus = await this.page.locator(this.disabledRadioBtn).isChecked();
         if (boolStatus) {
-            console.log("Buttton is already clicked")
+            console.log("Buttton is already clicked");
         } else {
             await this.page.locator(this.disabledRadioBtn).click();
-            console.log("Radio button is now clicked")
+            console.log("Radio button is now clicked");
         }
 
         return employeeId;

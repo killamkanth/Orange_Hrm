@@ -40,12 +40,6 @@ export class ConfigurationPage{
             await this.page.locator(this.slider(sliderValue)).setChecked(checkedStatus);
             let bool= await this.page.locator(this.slider(sliderValue)).isChecked();
             return bool;
-
-        // if(!(await this.page.locator(this.slider(sliderValue)).isChecked())){
-        //     await this.page.locator(this.slider(sliderValue)).
-        //     await this.page.waitForTimeout(1500);
-        //     console.log('clicked');
-        // }
     }
 
     async fillAddCustomFieldDetails(fieldName:string){

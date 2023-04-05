@@ -428,8 +428,7 @@ export class HomePage{
   async verifyPageTitleByPassingLocator(titleValue:string,locator :string){
     await this.waitForTimeout(2000);
     await this.waitForSelector(locator);
-    const title =  await this.page.locator(locator).textContent();//(`//*[normalize-space()='${titleValue}']/p`).textContent();
-
+    const title =  await this.page.locator(locator).textContent();
     console.log('title is ' , title);
     await this.waitForTimeout(1500);
     let boo = expect(title).toEqual(titleValue);

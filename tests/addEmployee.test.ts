@@ -17,8 +17,6 @@ test.beforeAll(async ({ browser }) => {
     utils = new Utils(page);
     addEmployeePage = new AddEmployeePage(page);
     employeeListPage = new EmployeeListPage(page);
-
-
 })
 
 test('Add Employee Reocrd', async () => {

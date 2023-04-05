@@ -14,20 +14,15 @@ export class ConfigurationPage{
     readonly tablelocator: string;
     readonly errorMesg: string;
    
-   
-   
-
 
     constructor(page : Page){
         this.page =page;
         this.utils = new Utils(page);
         this.homepage = new HomePage(page);
         this.organizationpage = new OrganizationPage(page);
-
         this.tableFieldNamelocator = "//div[@class='oxd-table-card']//div[2]";
         this.tablelocator =".orangehrm-container",
         this.errorMesg = "//span[text()='Already exists']",
-
         this.slider =(sliderValue)=>{
             return `//div[p[contains(normalize-space(),'${sliderValue}')]]//label`;
         }
@@ -35,8 +30,6 @@ export class ConfigurationPage{
     }
 
     async setSliderElement(sliderValue:string,checkedStatus:boolean){
-      
-        
             await this.page.locator(this.slider(sliderValue)).setChecked(checkedStatus);
             let bool= await this.page.locator(this.slider(sliderValue)).isChecked();
             return bool;

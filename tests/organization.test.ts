@@ -240,9 +240,7 @@ test('Should throw an error message while Addiing an Organisation Unit with exis
     await homepage.waitForTimeout(3000);
     let status = organizationpage.verifyOrganizationStructureTable(value);
     expect(status).toBeTruthy();
-
     //Adding the same name unit
-
     await (await homepage.getButtonElement('Add')).click();
     await homepage.verifyPageTitleByPassingLocator('Add Organization Unit',
         organizationpage.organizationStructureLocators.addOrganizationUnitTitle);

@@ -1,7 +1,7 @@
 {
     "AdminCredentials":{
         "userName" : "Admin",
-        "password" : "Admin@123"
+        "password" : "admin123"
     },
     "Menu": {
         "pim": "PIM",
